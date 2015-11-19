@@ -51,14 +51,6 @@ def main(argv):
 			print('Debug mode is not enabled, add "-d True" to your command to enable debug mode')
 			print("Still waiting, connect at your leisure")
 			x = x +1
-		elif(hasConnected == False):
-			print('--(O')
-			time.sleep(1)
-			print('---(O')
-			time.sleep(1)
-			print('----(O')
-			time.sleep(1)
-			print('---(O')
 		elif(debug == True and hasConnected == False):
 			print("You are in debug mode!")
 		theOutput = ser.readline()
@@ -96,14 +88,14 @@ def main(argv):
 				print("different version of pyserial")
 
 			ser.write('enable\r'.encode())
-		if("Router#" in theOutput and initial == True and "(config)" not in theOutput and "Proceed with reload? [confirm]" not in theOutput):
+		if("Router" in theOutput and initial == True and "(config)" not in theOutput and "Proceed with reload? [confirm]" not in theOutput):
 			ser.write("configure terminal\r".encode())
 	
 
 			print("Entering terminal configuration")
 	
 
-		if("Router(config)#" in theOutput and hasConfigured == False and "Proceed with reload? [confirm]" not in theOutput):
+		if('Router(config)'  in theOutput and hasConfigured == False and "Proceed with reload? [confirm]" not in theOutput):
 			ser.write("config-register 0x2102\r".encode())
 			try:
 				ser.flushInput()
@@ -115,34 +107,35 @@ def main(argv):
 			time.sleep(1)
 			hasConfigured = True
 			ser.write("end\r".encode())
-		elif(initial and "Proceed with reload? [confirm]" not in theOutput):
+		elif(initial and "Proceed with reload? [confirm]" not in theOutput and hasConfigured == True):
 			ser.write("end\r".encode())
 			initial = False
 
-		if(ending == False and "Router#(config)" in theOutput and "Proceed with reload? [confirm]" not in theOutput):
+		if(ending == False and "(config)" in theOutput and "Proceed with reload? [confirm]" not in theOutput):
 			print("Almost done")
 			ser.write("end\r".encode())
 			ending = True
-		if(initial == False and "Router#(config)" not in theOutput and "Router#" in theOutput and "[confirm]" not in theOutput and "of nvmram: complete" not in theOutput and hasErased == False):
+		if(initial == False and "(config)" not in theOutput and "Router#" in theOutput and "[confirm]" not in theOutput and "of nvmram: complete" not in theOutput and hasErased == False):
 			ser.flushInput()
 			time.sleep(2)
 			ser.write("write erase\r".encode())
 			time.sleep(1)
 			ser.write("\r".encode())
-
 			ser.flushInput()	
-
-			ser.write("reload\r".encode())
-			ser.flushInput()
-			ser.write("\r".encode())
 			hasErased = True
-			
+		if("Initialized the geometry" in theOutput and hasErased == True):
+			ser.flushInput()
+			ser.write("reload\r".encode())
+				
 		if("Proceed with reload? [confirm]" in theOutput and hasErased == True):
 			ser.flushInput()
 			ser.write("\r".encode())
+			ser.flushInput()
+			ser.write(b"\rL1\r")
+			time.sleep(5)
 			print("Erased! Bye!")
+			time.sleep(2)
 			sys.exit()
-		
 			
 
 if __name__ == "__main__":

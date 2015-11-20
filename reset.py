@@ -7,7 +7,7 @@ global initial
 global hasConfigured 
 global hasErased
 global x
-
+global rebootCount
 
 def main(argv):
 	initial = True
@@ -16,6 +16,7 @@ def main(argv):
 	hasErased = False
 	debug = False
 	x = 1
+	rebootCount = 0
 	try:
 		opts, args = getopt.getopt(argv,"hp:d:", ["port=", "debug="])
 	except getopt.GetoptError:
@@ -59,13 +60,15 @@ def main(argv):
 		if ("ROMMON" in theOutput and hasConnected == False):
 			ser.sendBreak()
 			hasConnected = True
+			rebootCount = rebootCount + 1
 			print('Booting into ROMMON')
-					
+		if("ROMMON" in theOutput):
+			rebootCount = rebootCount + 1
 		if("rommon 1" in theOutput):
 			print("Initial config")
 			ser.write('confreg 0x2141\r\n')
 			time.sleep(1)
-			ser.write('reset\r'.encode())
+			ser.write('reset\r'.encode())			
 			print("Resetting")
 	
 		if("yes/no" in theOutput and "been modified" not in theOutput):
@@ -140,7 +143,14 @@ def main(argv):
 			time.sleep(2)
 			ser.close()
 			sys.exit()
-			
-
+		if(rebootCount > 6):
+			print('Uh oh, something is wrong')
+			sys.exit()
+		if("flash:" in theOutput):
+			print('reseat your CF card and try again')
+			sys.exit()
+		if("Bad RAM" in theOutput):
+			print('RAM is either bad or misaligned. Realign or replace RAM and try again')
+			sys.exit()
 if __name__ == "__main__":
 	main(sys.argv[1:])

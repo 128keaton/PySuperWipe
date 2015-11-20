@@ -18,10 +18,13 @@ It works, as is, with most, if not all, modern Linux installs.
 First, install this (http://changux.co/osx-installer-to-pl2303-serial-usb-on-osx-lio/)[serial port driver] for OS X.
 Then, install serial from pip.
 	
-		$ curl -O http://python-distribute.org/distribute_setup.py
-		$ sudo python distribute_setup.py
-		$ curl -O https://raw.githubusercontent.com/pypa/pip/master/contrib/get-pip.py
-		$ sudo python get-pip.py
+		curl -O http://python-distribute.org/distribute_setup.py
+		
+		sudo python distribute_setup.py
+		
+		curl -O https://raw.githubusercontent.com/pypa/pip/master/contrib/get-pip.py
+		
+		sudo python get-pip.py
 	
 and then just run like normal.
 		wget https://goo.gl/gPVncz && sudo python reset.py -p /dev/ttyS0 -d False

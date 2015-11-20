@@ -138,6 +138,7 @@ def main(argv):
 			sys.stdout.flush()
 			print('\a')
 			time.sleep(2)
+			ser.close()
 			sys.exit()
 			
 

@@ -4,7 +4,7 @@ A python script for erasing Cisco 1800 series routers
 Plug router into serial port, note port 
 Run:
 		
-		wget https://goo.gl/gPVncz && sudo python reset.py -p /dev/ttyS0 -d False
+		wget -O reset.py https://goo.gl/gPVncz && sudo python reset.py -p /dev/ttyS0 -d False
 
 * -p is the port (/dev/ttyS0)
 * -d  is debug (True/False)
@@ -28,7 +28,7 @@ Then, install serial from pip.
 		sudo python get-pip.py
 	
 and then just run like normal.
-		wget https://goo.gl/gPVncz && sudo python reset.py -p /dev/ttyS0 -d False
+		wget -O reset.py https://goo.gl/gPVncz && sudo python reset.py -p /dev/ttyS0 -d False
 Note: you might have to unplug and replug the serial adaptor (in the same USB port) to get it to work.
 	
 	

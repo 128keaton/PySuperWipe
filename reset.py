@@ -134,6 +134,9 @@ def main(argv):
 			ser.write(b"\rL1\r")
 			time.sleep(5)
 			print("Erased! Bye!")
+			sys.stdout.write('\a')
+			sys.stdout.flush()
+			print('\a')
 			time.sleep(2)
 			sys.exit()
 			

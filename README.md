@@ -32,5 +32,11 @@ and then just run like normal.
 Note: you might have to unplug and replug the serial adaptor (in the same USB port) to get it to work.
 	
 	
-### Winders:
-To be announced!
+### Windows:
+To run this script in Windows, you must install Python 2.7 (it will not work with 3.0+)
+
+Then, install PySerial and set your PATH for your commandline (e.g. `;C:\Python27`).
+
+Open CMD and navigate to `reset.py` and run `python reset.py -p $COMPORT`.
+
+You can get your $COMPORT from Device Manager. Enjoy!
